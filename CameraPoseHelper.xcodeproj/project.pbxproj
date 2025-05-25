@@ -8,24 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		924AF5292CC8F7580079448E /* CompactSlider in Frameworks */ = {isa = PBXBuildFile; productRef = 924AF5282CC8F7580079448E /* CompactSlider */; };
-		9268C3852CE3905C009C59F5 /* BoilerCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9268C3842CE3905C009C59F5 /* BoilerCore */; };
 		926D2F402B35BEC700D15F06 /* CameraPoseHelperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926D2F3F2B35BEC700D15F06 /* CameraPoseHelperApp.swift */; };
-		926D2F442B35BEC900D15F06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926D2F432B35BEC900D15F06 /* Assets.xcassets */; };
 		926D2F472B35BEC900D15F06 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 926D2F462B35BEC900D15F06 /* Preview Assets.xcassets */; };
-		92B272562CB002AB00DADFAA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92B272552CB002AB00DADFAA /* GoogleService-Info.plist */; };
+		9271C0F32DE30551004C1992 /* VideoShaders.metal in Resources */ = {isa = PBXBuildFile; fileRef = 9271C0D22DE30551004C1992 /* VideoShaders.metal */; };
+		9271C0F42DE30551004C1992 /* CamShader.metal in Resources */ = {isa = PBXBuildFile; fileRef = 9271C0C42DE30551004C1992 /* CamShader.metal */; };
+		9273660D2DD3B8CB00218A73 /* ReceiptParser in Frameworks */ = {isa = PBXBuildFile; productRef = 9273660C2DD3B8CB00218A73 /* ReceiptParser */; };
+		9273660F2DD3B8CB00218A73 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 9273660E2DD3B8CB00218A73 /* RevenueCat */; };
+		927366122DD3BA2000218A73 /* Foil in Frameworks */ = {isa = PBXBuildFile; productRef = 927366112DD3BA2000218A73 /* Foil */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		926D2F3C2B35BEC700D15F06 /* CameraPoseHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraPoseHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		926D2F3F2B35BEC700D15F06 /* CameraPoseHelperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPoseHelperApp.swift; sourceTree = "<group>"; };
-		926D2F432B35BEC900D15F06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		926D2F462B35BEC900D15F06 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		926D2F502B35C15700D15F06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		92B272552CB002AB00DADFAA /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9271C0C42DE30551004C1992 /* CamShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = CamShader.metal; sourceTree = "<group>"; };
+		9271C0D22DE30551004C1992 /* VideoShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = VideoShaders.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		92125A2B2CC9251600F9CC97 /* Source */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Source; sourceTree = "<group>"; };
+		9271C0F52DE320A8004C1992 /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
+		9271C21C2DE35A8F004C1992 /* trash */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = trash; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,8 +37,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9268C3852CE3905C009C59F5 /* BoilerCore in Frameworks */,
+				9273660F2DD3B8CB00218A73 /* RevenueCat in Frameworks */,
+				9273660D2DD3B8CB00218A73 /* ReceiptParser in Frameworks */,
 				924AF5292CC8F7580079448E /* CompactSlider in Frameworks */,
+				927366122DD3BA2000218A73 /* Foil in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,12 +74,13 @@
 		926D2F3E2B35BEC700D15F06 /* CameraPoseHelper */ = {
 			isa = PBXGroup;
 			children = (
+				9271C0F62DE320E1004C1992 /* Shaders */,
+				9271C0F52DE320A8004C1992 /* Resources */,
 				92125A2B2CC9251600F9CC97 /* Source */,
 				926D2F502B35C15700D15F06 /* Info.plist */,
 				926D2F3F2B35BEC700D15F06 /* CameraPoseHelperApp.swift */,
-				926D2F432B35BEC900D15F06 /* Assets.xcassets */,
 				926D2F452B35BEC900D15F06 /* Preview Content */,
-				92B272552CB002AB00DADFAA /* GoogleService-Info.plist */,
+				9271C21C2DE35A8F004C1992 /* trash */,
 			);
 			path = CameraPoseHelper;
 			sourceTree = "<group>";
@@ -84,6 +91,15 @@
 				926D2F462B35BEC900D15F06 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9271C0F62DE320E1004C1992 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				9271C0C42DE30551004C1992 /* CamShader.metal */,
+				9271C0D22DE30551004C1992 /* VideoShaders.metal */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -103,11 +119,15 @@
 			);
 			fileSystemSynchronizedGroups = (
 				92125A2B2CC9251600F9CC97 /* Source */,
+				9271C0F52DE320A8004C1992 /* Resources */,
+				9271C21C2DE35A8F004C1992 /* trash */,
 			);
 			name = CameraPoseHelper;
 			packageProductDependencies = (
 				924AF5282CC8F7580079448E /* CompactSlider */,
-				9268C3842CE3905C009C59F5 /* BoilerCore */,
+				9273660C2DD3B8CB00218A73 /* ReceiptParser */,
+				9273660E2DD3B8CB00218A73 /* RevenueCat */,
+				927366112DD3BA2000218A73 /* Foil */,
 			);
 			productName = CameraPoseHelper;
 			productReference = 926D2F3C2B35BEC700D15F06 /* CameraPoseHelper.app */;
@@ -139,7 +159,8 @@
 			mainGroup = 926D2F332B35BEC700D15F06;
 			packageReferences = (
 				924AF5272CC8F7580079448E /* XCRemoteSwiftPackageReference "CompactSlider" */,
-				922F3BB82CD12EF700536EF9 /* XCLocalSwiftPackageReference "../Earning-App-Boilerplate" */,
+				9273660B2DD3B8CB00218A73 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+				927366102DD3BA2000218A73 /* XCRemoteSwiftPackageReference "Foil" */,
 			);
 			productRefGroup = 926D2F3D2B35BEC700D15F06 /* Products */;
 			projectDirPath = "";
@@ -156,8 +177,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				926D2F472B35BEC900D15F06 /* Preview Assets.xcassets in Resources */,
-				926D2F442B35BEC900D15F06 /* Assets.xcassets in Resources */,
-				92B272562CB002AB00DADFAA /* GoogleService-Info.plist in Resources */,
+				9271C0F32DE30551004C1992 /* VideoShaders.metal in Resources */,
+				9271C0F42DE30551004C1992 /* CamShader.metal in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,7 +323,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CameraPoseHelper/Preview Content\"";
 				DEVELOPMENT_TEAM = 87XM268947;
 				ENABLE_PREVIEWS = YES;
@@ -311,19 +332,17 @@
 				INFOPLIST_KEY_CFBundleDisplayName = OverCam;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Access to the camera is required for the user to take photos through the app.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = wdfwdf;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Access to the photo library is required to save taken photos and select images as references.";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We track your activity to offer you more relevant services.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.7.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.01lab.overcam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -344,7 +363,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CameraPoseHelper/Preview Content\"";
 				DEVELOPMENT_TEAM = 87XM268947;
 				ENABLE_PREVIEWS = YES;
@@ -353,19 +372,17 @@
 				INFOPLIST_KEY_CFBundleDisplayName = OverCam;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Access to the camera is required for the user to take photos through the app.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = wdfwdf;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Access to the photo library is required to save taken photos and select images as references.";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We track your activity to offer you more relevant services.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.7.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.01lab.overcam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -401,13 +418,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		922F3BB82CD12EF700536EF9 /* XCLocalSwiftPackageReference "../Earning-App-Boilerplate" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../Earning-App-Boilerplate";
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		924AF5272CC8F7580079448E /* XCRemoteSwiftPackageReference "CompactSlider" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -415,6 +425,22 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.1.6;
+			};
+		};
+		9273660B2DD3B8CB00218A73 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.23.0;
+			};
+		};
+		927366102DD3BA2000218A73 /* XCRemoteSwiftPackageReference "Foil" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jessesquires/Foil";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -425,10 +451,20 @@
 			package = 924AF5272CC8F7580079448E /* XCRemoteSwiftPackageReference "CompactSlider" */;
 			productName = CompactSlider;
 		};
-		9268C3842CE3905C009C59F5 /* BoilerCore */ = {
+		9273660C2DD3B8CB00218A73 /* ReceiptParser */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 922F3BB82CD12EF700536EF9 /* XCLocalSwiftPackageReference "../Earning-App-Boilerplate" */;
-			productName = BoilerCore;
+			package = 9273660B2DD3B8CB00218A73 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = ReceiptParser;
+		};
+		9273660E2DD3B8CB00218A73 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9273660B2DD3B8CB00218A73 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		927366112DD3BA2000218A73 /* Foil */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 927366102DD3BA2000218A73 /* XCRemoteSwiftPackageReference "Foil" */;
+			productName = Foil;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
