@@ -21,9 +21,9 @@
 		926D2F3C2B35BEC700D15F06 /* CameraPoseHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraPoseHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		926D2F3F2B35BEC700D15F06 /* CameraPoseHelperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPoseHelperApp.swift; sourceTree = "<group>"; };
 		926D2F462B35BEC900D15F06 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		926D2F502B35C15700D15F06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9271C0C42DE30551004C1992 /* CamShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = CamShader.metal; sourceTree = "<group>"; };
 		9271C0D22DE30551004C1992 /* VideoShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = VideoShaders.metal; sourceTree = "<group>"; };
+		929E6BC32DE46CC60034B6D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -77,10 +77,10 @@
 				9271C0F62DE320E1004C1992 /* Shaders */,
 				9271C0F52DE320A8004C1992 /* Resources */,
 				92125A2B2CC9251600F9CC97 /* Source */,
-				926D2F502B35C15700D15F06 /* Info.plist */,
 				926D2F3F2B35BEC700D15F06 /* CameraPoseHelperApp.swift */,
 				926D2F452B35BEC900D15F06 /* Preview Content */,
 				9271C21C2DE35A8F004C1992 /* trash */,
+				929E6BC32DE46CC60034B6D7 /* Info.plist */,
 			);
 			path = CameraPoseHelper;
 			sourceTree = "<group>";

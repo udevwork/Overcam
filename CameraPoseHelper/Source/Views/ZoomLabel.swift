@@ -14,9 +14,7 @@ struct ZoomLabel: View {
     
     var body: some View {
         Text(String(format: "%.2f", cameraManager.zoom))
-            .bold()
-            .font(.footnote)
-            .fontDesign(.monospaced)
+            .font(.doto(.extraBold, size: 23))
             .opacity(zoomLabelOpacity)
             .onChange(of: cameraManager.zoom) {
                 zoomLabelOpacity = 1

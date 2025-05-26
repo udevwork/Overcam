@@ -2,10 +2,34 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UILaunchScreen</key>
-	<dict>
-		<key>UIColorName</key>
-		<string>AccentColor</string>
-	</dict>
+    <key>UIAppFonts</key>
+    <array>
+            <!-- Doto Rounded -->
+            <string>Doto_Rounded-Black.ttf</string>
+            <string>Doto_Rounded-Bold.ttf</string>
+            <string>Doto_Rounded-ExtraBold.ttf</string>
+            <string>Doto_Rounded-ExtraLight.ttf</string>
+            <string>Doto_Rounded-Light.ttf</string>
+            <string>Doto_Rounded-Medium.ttf</string>
+            <string>Doto_Rounded-Regular.ttf</string>
+            <string>Doto_Rounded-SemiBold.ttf</string>
+            <string>Doto_Rounded-Thin.ttf</string>
+
+            <!-- Doto -->
+            <string>Doto-Black.ttf</string>
+            <string>Doto-Bold.ttf</string>
+            <string>Doto-ExtraBold.ttf</string>
+            <string>Doto-ExtraLight.ttf</string>
+            <string>Doto-Light.ttf</string>
+            <string>Doto-Medium.ttf</string>
+            <string>Doto-Regular.ttf</string>
+            <string>Doto-SemiBold.ttf</string>
+            <string>Doto-Thin.ttf</string>
+        </array>
+    <key>UILaunchScreen</key>
+    <dict>
+        <key>UIColorName</key>
+        <string>AccentColor</string>
+    </dict>
 </dict>
 </plist>

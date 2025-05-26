@@ -72,7 +72,10 @@ struct SlidersStack: View {
             .disabled(cameraManager.referenceImage == nil)
             
         }
-
+        .shadow(radius: 5)
+        .padding(.bottom, 6)
+        .padding(.trailing, 6)
+        
     }
 }
 

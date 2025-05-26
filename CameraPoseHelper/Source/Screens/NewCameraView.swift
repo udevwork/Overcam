@@ -107,7 +107,7 @@ struct VideoFrame : View {
             })
         
             .onAppear(perform: {
-                cameraManager.start()
+                cameraManager.checkCameraPremission()
             })
             .opacity(cameraManager.isRunning ? 1.0 : 0)
             .onTapGesture(perform: { location in
@@ -115,7 +115,9 @@ struct VideoFrame : View {
             })
             .simultaneousGesture(DragGesture(minimumDistance: 0, coordinateSpace: .local)
                 .onEnded({ value in
-                    onSwipe()
+                    if abs(value.translation.height) > 10 {
+                        onSwipe()
+                    }
                 }))
             .simultaneousGesture(
                 MagnificationGesture()

@@ -12,56 +12,30 @@ import PhotosUI
 import CompactSlider
 import Foil
 
-final class CameraModel: ObservableObject {
-    
-    @FoilDefaultStorage(key: "tutorComplete") var tutorComplete = false
-    
-    @Published var permissionGranted: Bool? = nil
-    
-    init() {
-        
-    }
-    
-    func checkCameraPremission() {
-        let mediaType: AVMediaType = .video
-        let currentAccsess = AVCaptureDevice.authorizationStatus(for: mediaType)
-        
-        if currentAccsess == .authorized {
-            DispatchQueue.main.async {
-                withAnimation {
-                    self.permissionGranted = true
-                }
-            }
-        } else {
-            AVCaptureDevice.requestAccess(for: mediaType) { granded in
-                if granded {
-                    DispatchQueue.main.async {
-                        withAnimation {
-                            self.permissionGranted = true
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+
 
 class ScreenController: ObservableObject {
     
     private var store = Set<AnyCancellable>()
     
+    @FoilDefaultStorage(key: "onboardingComplete") var onboardingComplete = false
+    @FoilDefaultStorage(key: "tutorComplete") var tutorComplete = false
+
     @Published var showPaywall = false
-    @Published var showOnboarding = true
     @Published var showCamera = false
     
     init() {
-        $showOnboarding.sink {
-            if !$0 {
+        if onboardingComplete == true {
+            showCamera = true
+        }
+        $onboardingComplete.sink { complete in
+            if complete {
                 withAnimation {
                     self.showCamera = true
                 }
             }
         }.store(in: &store)
+        
     }
     
 }
@@ -73,7 +47,6 @@ struct CustomCameraView: View {
     @StateObject var cameraManager: NewCameraManager = NewCameraManager()
     @StateObject var levelModel: LevelViewModel      = LevelViewModel()
     @StateObject var screen: ScreenController        = ScreenController()
-    @StateObject var viewModel: CameraModel          = CameraModel()
     
     @State var menuOpened = false
 
@@ -91,7 +64,7 @@ struct CustomCameraView: View {
                         
                         VideoFrame(screen: screen, onSwipe: swipeMenu)
                         GridOverlay(showGrid: $cameraManager.grid)
-                        TutorialArrowView(complete: $viewModel.tutorComplete)
+                        TutorialArrowView(complete: $screen.tutorComplete)
                         
                         HStack {
                             Spacer()
@@ -103,7 +76,7 @@ struct CustomCameraView: View {
                                         LastCapturedImage()
                                     }
                                 }
-                             
+                                
                                 Spacer()
                                 
                                 if menuOpened && !screen.showPaywall {
@@ -115,7 +88,7 @@ struct CustomCameraView: View {
                                         ReferenceImageOpacitySlider()
                                         Spacer()
                                         LevelIndicatorView(viewModel: levelModel)
-                                        CaptureButton(cameraViewAvalable: $viewModel.permissionGranted) {
+                                        CaptureButton(cameraViewAvalable: $cameraManager.permissionGranted) {
                                             cameraManager.captureHighQualityPhoto()
                                         }
                                     }.transition(.blurReplace)
@@ -125,7 +98,7 @@ struct CustomCameraView: View {
                         }.padding(20)
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
-                                    
+                    
                     if menuOpened {
                         PhotosTemplatePickerView(
                             selectedImage: $cameraManager.referenceImage,
@@ -134,11 +107,13 @@ struct CustomCameraView: View {
                         )
                     }
                 }
-                .onAppear {
-                    self.viewModel.checkCameraPremission()
-                }
+                
+                
+                CameraPermission()
+                
+                
             }
-            
+
             if screen.showPaywall {
                 BestPaywall(
                     namespace: animationNamespace,
@@ -146,8 +121,8 @@ struct CustomCameraView: View {
                 )
             }
             
-            if screen.showOnboarding {
-                VideoOnboarding(showOnboarding: $screen.showOnboarding)
+            if screen.onboardingComplete == false {
+                VideoOnboarding(onboardingComplete: $screen.onboardingComplete)
             }
             
         }.environmentObject(cameraManager)
@@ -158,7 +133,8 @@ struct CustomCameraView: View {
         hapticLight()
         withAnimation {
             menuOpened.toggle()
-            viewModel.tutorComplete = true
+            screen.tutorComplete = true
+            screen.onboardingComplete = true
         }
         menuOpened ? levelModel.stop() : levelModel.start()
     }

@@ -200,7 +200,7 @@ struct VideoOnboarding: View {
     @State var nextButtonWidth: CGFloat = 100.0
     @State var nextButtonIconColor: Color = .accentColor
     
-    @Binding var showOnboarding: Bool
+    @Binding var onboardingComplete: Bool
     
     var body: some View {
         
@@ -211,7 +211,7 @@ struct VideoOnboarding: View {
                 Spacer()
                 VStack(alignment:.leading) {
                     Text(title)
-                        .font(.system(size: 40, weight: .black, design: .default))
+                        .font(.doto(.black, size: 40))
                         .contentTransition(.numericText())
                         .foregroundStyle(
                             LinearGradient(colors: [Color.introOne,Color.introTwo], startPoint: .leading, endPoint: .trailing)
@@ -230,7 +230,7 @@ struct VideoOnboarding: View {
                         Button {
                             if viewModel.currentStopIndex == 5 {
                                 withAnimation {
-                                    showOnboarding = false
+                                    onboardingComplete = true
                                 }
                             }
                             viewModel.playUntilNextStop()

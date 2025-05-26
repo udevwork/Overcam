@@ -10,7 +10,8 @@ import PhotosUI
 
 
 struct PhotosTemplatePickerView: View {
-    // private
+    
+    @StateObject var subscriptions = SubscriptionManager.shared
 
     @State private var selectedIndex: Int = -1
     private var photoPrefix: String = "photo-"
@@ -46,14 +47,12 @@ struct PhotosTemplatePickerView: View {
                         .foregroundStyle(.clear)
                     
                     
-                    //  if model.subscriptionStatus == .active {
-                    if false {
+                    if subscriptions.isSubscribed {
                         PhotosPicker(selection: $photoItem) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 16, style: .continuous)
                                     .frame(width: 40, height: 40)
                                     .foregroundStyle(.dirtyWhite)
-                                
                                 
                                 Image(systemName: "plus")
                                     .resizable()
@@ -163,9 +162,14 @@ struct PhotosTemplatePickerView: View {
                         
                     } else {
                         HStack(spacing: 15) {
+                            Text("+++").onTapGesture { subscriptions.isSubscribed = true }
                             Text("Privacy").onTapGesture { showPrivacy.toggle() }
                             Text("Terms").onTapGesture { showTerms.toggle() }
-                            Text("Restore")
+                            Text("Restore").onTapGesture {
+                                Task {
+                                    await subscriptions.restorePurchases()
+                                }
+                            }
                         }
                         .font(.footnote)
                         .opacity(0.7)

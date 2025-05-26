@@ -8,8 +8,8 @@
 import SwiftUI
 
 class BestPaywallModel: ObservableObject {
+    
     @Published public var selectedProduct : SubscriptionProduct? = nil
-
     @Published public var priceText : String = ""
     @Published public var priceSubText : String = ""
     
@@ -38,7 +38,6 @@ struct BestPaywall: View {
                 if animate {
                     ZStack(alignment: .bottom) {
                         AVPlayerContainerView(player: videoModel.getPlayer())
-                        
                     }
                     .frame(width: UIScreen.main.bounds.width,
                            height: floor(UIScreen.main.bounds.height/3))
@@ -54,9 +53,8 @@ struct BestPaywall: View {
                     
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
-                            Text("Get").font(.system(size: 35, weight: .black, design: .default))
                             Text("Premium.")
-                                .font(.system(size: 35, weight: .black, design: .serif))
+                                .font(.doto(.black, size: 45))
                                 .foregroundStyle(
                                     LinearGradient(colors: [Color.introOne,Color.introTwo], startPoint: .leading, endPoint: .trailing)
                                 )
@@ -200,6 +198,13 @@ struct BestPaywall: View {
                 if showPaywall == false {
                     animate = showPaywall
                 }
+            }
+            .onChange(of: subscriptionManager.isSubscribed) {
+                
+                withAnimation {
+                    showPaywall = false
+                }
+                
             }
             Rectangle().frame(height: 50).foregroundStyle(.clear)
         }

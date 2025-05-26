@@ -29,7 +29,7 @@ public class SubscriptionManager: ObservableObject {
     public static let shared = SubscriptionManager()
     
     @Published public private(set) var products: [SubscriptionProduct] = []
-    @Published public private(set) var isSubscribed: Bool = false
+    @Published public var isSubscribed: Bool = false
     @Published public var errorMessage: String?
     @Published public var purchasing: Bool = false
     

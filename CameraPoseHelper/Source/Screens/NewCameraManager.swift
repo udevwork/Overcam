@@ -5,6 +5,7 @@ import CoreImage
 import Metal
 import MetalKit
 import SwiftUI
+import Combine
 
 final class NewCameraManager: NSObject, ObservableObject {
     
@@ -20,18 +21,14 @@ final class NewCameraManager: NSObject, ObservableObject {
     
     //@Published var currentPixelBuffer: CVPixelBuffer?
     var onNewPixelBuffer: ((CVPixelBuffer) -> Void)? = nil
-    @Published var currentdevice: AVCaptureDevice?
     
+    @Published var permissionGranted: Bool? = nil
+    @Published var currentdevice: AVCaptureDevice?
     @Published var isRunning = false
-
     @Published var referenceImage:  CGImage?
     @Published var referenceAlpha: Float = 0.5
-    
     @Published var camExpRange: (CMTime,CMTime) = (.zero,.zero)
-    
     @Published var lastCapturedImage: UIImage?
-    
-    
     @Published var zoom:CGFloat = 1.0
     @Published var lastZoomLevel: CGFloat = 1.0
     @Published var flash: Bool = false
@@ -40,9 +37,16 @@ final class NewCameraManager: NSObject, ObservableObject {
     @Published var expBias: Double = 0.005
     @Published var iso: Float = 200.0
     
+    private var store = Set<AnyCancellable>()
+    
     override init() {
         super.init()
-        setupSession()
+        $permissionGranted.sink { complete in
+             if complete == true {
+                 self.setupSession()
+             }
+         }.store(in: &store)
+         
     }
 
     private func setupSession() {
@@ -98,6 +102,41 @@ final class NewCameraManager: NSObject, ObservableObject {
         session.commitConfiguration()
         
         CVMetalTextureCacheCreate(nil, nil, MTLCreateSystemDefaultDevice()!, nil, &textureCache)
+        
+        start()
+    }
+    
+    func checkCameraPremission() {
+        let mediaType: AVMediaType = .video
+        let currentAccsess = AVCaptureDevice.authorizationStatus(for: mediaType)
+        
+        if currentAccsess == .authorized {
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.permissionGranted = true
+                }
+            }
+        } else {
+            AVCaptureDevice.requestAccess(for: mediaType) { granded in
+                if granded {
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            self.permissionGranted = true
+                        }
+                    }
+                } else {
+                    withAnimation {
+                        self.permissionGranted = false
+                    }
+                }
+            }
+        }
+    }
+    
+    func getCurrentPermissions(){
+        let mediaType: AVMediaType = .video
+        let currentAccsess = AVCaptureDevice.authorizationStatus(for: mediaType)
+        permissionGranted = (currentAccsess == .authorized)
     }
     
     func start() {

@@ -88,22 +88,28 @@ class MotionManager: ObservableObject {
 
 struct SettingsView: View {
     
+    @Environment(\.openURL) private var openURL
+    @Environment(\.requestReview) var requestReview
+    @Environment(\.dismiss) var dismiss
     @StateObject private var motion = MotionManager()
     @State private var elapsed: Float = 1
     @State private var counter: Float = 1
-
+    
+    @State private var showPrivacy: Bool = false
+    @State private var showTerms: Bool = false
+    @State private var isSharePresented: Bool = false
+    
     var items: [TextEmoji] = [
         .init(text: "Reate us!"),
         .init(text: "Web"),
         .init(text: "Telegram"),
         .init(text: "Email"),
-        .init(text: "Insta"),
         .init(text: "More apps"),
         .init(text: "Policy"),
         .init(text: "Terms"),
         .init(text: "Share")
     ]
-
+    
     var body: some View {
         ZStack {
             Image("img")
@@ -122,56 +128,113 @@ struct SettingsView: View {
                         elapsed += 0.16 // Каждые ~16мс, чтобы шло как 60 fps
                     }
                 }
-
+            
             VStack(alignment: .leading, spacing: 20) {
+                
+                Button {
+                    dismiss()
+                } label: {
+                    Text("<")
+                        .font(.doto(.black, size: 45))
+                        .foregroundStyle(
+                            LinearGradient(colors: [Color.introOne,Color.introTwo], startPoint: .leading, endPoint: .trailing)
+                        )
+                }
+                
+                
                 Text("Become a part of us.")
-                    .font(.system(size: 30, weight: .black, design: .serif))
+                    .font(.doto(.black, size: 45))
                     .offset(x: motion.x * 10, y: motion.y * 10)
                     .foregroundStyle(
                         LinearGradient(colors: [Color.introOne,Color.introTwo], startPoint: .leading, endPoint: .trailing)
                     )
-
+                
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Our goal is to inspire you to create breathtaking, artistic photographs, and we hope this tool will help you craft original works and learn composition from professionals. Join our team—we’re open to dialogue and committed to continuous improvement.")
-                        .font(.system(size: 16, weight: .regular, design: .serif))
+                        .font(.subheadline)
+                        .bold()
                         .foregroundStyle(.dirtyWhite)
-                    HStack {
-                        Spacer()
-                        Text("- 01lab")
-                            .multilineTextAlignment(.trailing).bold()
-                            .foregroundStyle(.dirtyWhite.opacity(0.5))
-                    }
-                }  .offset(x: motion.x * 5, y: motion.y * 5)
+                    
+                }.offset(x: motion.x * 5, y: motion.y * 5)
                 
                 Spacer()
                 
                 FlowLayout(items: items, spacing: 6) { i in
-                    HStack {
-                        Text(i.text).bold()
+                    Button {
+                        switch i.text {
+                            case "Reate us!": requestReview()
+                            case "Web": openURL(WEBSITE)
+                            case "Telegram": openURL(TG_SUPPORT)
+                            case "Email": openMail()
+                            case "More apps": openURL(MORE_APPS)
+                            case "Policy": showPrivacy.toggle()
+                            case "Terms": showTerms.toggle()
+                            case "Share": isSharePresented.toggle()
+                            default:
+                                return
+                        }
+                    } label: {
+                        HStack {
+                            Text(i.text)
+                        }
+                        .font(.subheadline)
+                        .lineLimit(1)
+                        .foregroundStyle(.dirtyWhite)
+                        .padding(.vertical,10)
+                        .padding(.horizontal,13)
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(20)
                     }
-                    .font(.subheadline)
-                    .lineLimit(1)
-                    .foregroundStyle(.dirtyWhite)
-                    .padding(.vertical,10)
-                    .padding(.horizontal,13)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(10)
+                    
+                    
                 }
                 
-      
+                
                 HStack {
-                    Image("logo")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                    VStack(alignment:.leading) {
+                    VStack(alignment: .leading) {
                         Text("Created by".uppercased()).foregroundStyle(.dirtyWhite.opacity(0.5))
-                        Text("01lab")  .foregroundStyle(.dirtyWhite)
-                    }
+                        Text("01lab") .foregroundStyle(.dirtyWhite)
+                    }.font(.footnote)
                 }
             }
             .foregroundStyle(.ultraThickMaterial)
             .padding(30)
-           
-        }.background(.black)
+            
+        }
+        .background(.black)
+        .navigationBarBackButtonHidden()
+        .sheet(isPresented: $showTerms) { WebViewScreen(url: TERMS_CONDITIONS_LINK) }
+        .sheet(isPresented: $showPrivacy) { WebViewScreen(url: PRIVACY_POLICY_LINK) }
+        .sheet(isPresented: $isSharePresented) { ShareView( items: [APPSTORE_URL] ) }
+
+    }
+    
+    func openMail() {
+        
+        let subject = "OverCam app"
+        let body = "Hello!\n"
+        let emailTo = EMAIL_SUPPORT
+        
+        if let url = URL(string: "mailto:\(emailTo)?subject=\(subject.fixToBrowserString())&body=\(body.fixToBrowserString())"),
+           UIApplication.shared.canOpenURL(url)
+        {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+
+}
+
+extension String {
+    func fixToBrowserString() -> String {
+        self.replacingOccurrences(of: ";", with: "%3B")
+            .replacingOccurrences(of: "\n", with: "%0D%0A")
+            .replacingOccurrences(of: " ", with: "+")
+            .replacingOccurrences(of: "!", with: "%21")
+            .replacingOccurrences(of: "\"", with: "%22")
+            .replacingOccurrences(of: "\\", with: "%5C")
+            .replacingOccurrences(of: "/", with: "%2F")
+            .replacingOccurrences(of: "‘", with: "%91")
+            .replacingOccurrences(of: ",", with: "%2C")
+            //more symbols fixes here: https://mykindred.com/htmlspecialchars.php
     }
 }
