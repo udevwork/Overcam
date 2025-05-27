@@ -70,27 +70,32 @@ struct PhotosTemplatePickerView: View {
                             }
                         }
                     } else {
-                        Button {
-                            withAnimation(.easeInOut) {
-                                showPaywall.toggle()
-                            }
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: showPaywall ? 40 : 16, style: .continuous)
-                                    .matchedGeometryEffect(id: "rectangle", in: namespace, isSource: !showPaywall)
-                                    .frame(width: 40, height: 40)
-                                    .foregroundStyle(.dirtyWhite)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: showPaywall ? 40 : 16, style: .continuous)
+                                .matchedGeometryEffect(id: "rectangle", in: namespace, isSource: !showPaywall)
+                                .frame(width: 40, height: 40)
+                                .foregroundStyle(.dirtyWhite)
+                            
+                            
+                            Image(systemName: "plus")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .foregroundStyle(.accent)
+                                .rotationEffect( showPaywall ? .degrees(45) : .degrees(0))
+                                .opacity(subscriptions.purchasing ? 0.5 : 1)
                                 
-                                
-                                Image(systemName: "plus")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .foregroundStyle(.accent)
-                                    .rotationEffect( showPaywall ? .degrees(45) : .degrees(0))
-                                
-                            }
-                            .frame(width: 40, height: 40)
+                            
                         }
+                        .frame(width: 40, height: 40)
+                        .onTapGesture {
+                            if subscriptions.purchasing == false {
+                                withAnimation(.easeInOut) {
+                                    showPaywall.toggle()
+                                }
+                            }
+                        }
+                     
+                        
                     }
                     
                     if showPaywall == false {
@@ -162,7 +167,6 @@ struct PhotosTemplatePickerView: View {
                         
                     } else {
                         HStack(spacing: 15) {
-                            Text("+++").onTapGesture { subscriptions.isSubscribed = true }
                             Text("Privacy").onTapGesture { showPrivacy.toggle() }
                             Text("Terms").onTapGesture { showTerms.toggle() }
                             Text("Restore").onTapGesture {

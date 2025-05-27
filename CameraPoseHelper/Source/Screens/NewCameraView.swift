@@ -66,12 +66,12 @@ struct NewCameraView: UIViewRepresentable {
 
         private func updateTexture(from pixelBuffer: CVPixelBuffer) {
             guard let renderer = renderer else { return }
-            guard let textureCache = renderer.device.makeTextureCache() else { return }
+            guard let textureCache = renderer.textureCache else { return }
 
             var cvTextureOut: CVMetalTexture?
             let width = CVPixelBufferGetWidth(pixelBuffer)
             let height = CVPixelBufferGetHeight(pixelBuffer)
-
+            CVMetalTextureCacheFlush(textureCache, 0)
             CVMetalTextureCacheCreateTextureFromImage(
                 kCFAllocatorDefault,
                 textureCache,
@@ -133,10 +133,10 @@ struct VideoFrame : View {
     }
 }
 
-extension MTLDevice {
-    func makeTextureCache() -> CVMetalTextureCache? {
-        var cache: CVMetalTextureCache?
-        CVMetalTextureCacheCreate(nil, nil, self, nil, &cache)
-        return cache
-    }
-}
+//extension MTLDevice {
+//    func makeTextureCache() -> CVMetalTextureCache? {
+//        var cache: CVMetalTextureCache?
+//        CVMetalTextureCacheCreate(nil, nil, self, nil, &cache)
+//        return cache
+//    }
+//}

@@ -69,10 +69,10 @@ struct SlidersStack: View {
             }
             .compactSliderStyle(.bottom)
             .opacity(cameraManager.referenceImage == nil ? 0.5 : 1)
+            .blur(radius: cameraManager.referenceImage == nil ? 1 : 0)
             .disabled(cameraManager.referenceImage == nil)
             
         }
-        .shadow(radius: 5)
         .padding(.bottom, 6)
         .padding(.trailing, 6)
         

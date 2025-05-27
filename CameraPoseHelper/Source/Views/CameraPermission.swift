@@ -20,7 +20,7 @@ struct CameraPermission: View {
     
     
     var body: some View {
-        if cameraManager.permissionGranted == false {
+        if cameraManager.permissionGranted == false || cameraManager.permissionPhotoGranted == false {
             ZStack {
                 Image("img")
                     .resizable()
@@ -41,15 +41,35 @@ struct CameraPermission: View {
                 
                 VStack(alignment: .leading, spacing: 20) {
                     
-                    Text("Camera Permission is required.")
+                    Text("Permissions")
                         .font(.doto(.black, size: 45))
                         .offset(x: motion.x * 10, y: motion.y * 10)
                         .foregroundStyle(
                             LinearGradient(colors: [Color.introOne,Color.introTwo], startPoint: .leading, endPoint: .trailing)
                         )
                     
+                    
+                    VStack(alignment: .leading, spacing: 7) {
+                        Text("Requirements:").bold()
+                        VStack(alignment: .leading, spacing: 0) {
+                            if cameraManager.permissionGranted == false {
+                                Text("Camera Access")
+                            } else {
+                                Text("Camera Access").strikethrough().opacity(0.7)
+                            }
+                            
+                            if cameraManager.permissionPhotoGranted == false {
+                                Text("Photo Library Access")
+                            } else {
+                                Text("Photo Library Access").strikethrough().opacity(0.7)
+                            }
+                            
+                        }
+                    }
+                    .foregroundStyle(.dirtyWhite)
+                    
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("Hey, this is the main feature of the app! We need your permission to use the camera. Nothing will work without your permission.")
+                        Text("Hey, this is the main feature of the app!\nTo take photos and save them to your gallery, we need access. Please go to settings to give permission.")
                             .font(.subheadline)
                             .bold()
                             .foregroundStyle(.dirtyWhite)
@@ -84,6 +104,7 @@ struct CameraPermission: View {
             .background(.black)
             .onAppear {
                 cameraManager.getCurrentPermissions()
+                cameraManager.checkPhotoLibraryAccess()
             }
         }
     }

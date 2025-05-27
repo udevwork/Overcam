@@ -76,7 +76,7 @@ struct HeaderMenu : View {
                 Button(action: {
                     cameraManager.front = false
                     hapticLight()
-                    cameraManager.switchCamera(to: device)
+                    cameraManager.reswitchCamera(to: device)
                 }) {
                     Text(String(format: "%.1fx", device.nominalZoom)).font(.system(.footnote, design: .monospaced, weight: .bold))
                 }

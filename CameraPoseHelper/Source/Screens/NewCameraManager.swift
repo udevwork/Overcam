@@ -7,7 +7,8 @@ import MetalKit
 import SwiftUI
 import Combine
 
-final class NewCameraManager: NSObject, ObservableObject {
+@objcMembers
+final class NewCameraManager: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, ObservableObject {
     
     private let photoOutput = AVCapturePhotoOutput()
     
@@ -23,6 +24,7 @@ final class NewCameraManager: NSObject, ObservableObject {
     var onNewPixelBuffer: ((CVPixelBuffer) -> Void)? = nil
     
     @Published var permissionGranted: Bool? = nil
+    @Published var permissionPhotoGranted: Bool? = nil
     @Published var currentdevice: AVCaptureDevice?
     @Published var isRunning = false
     @Published var referenceImage:  CGImage?
@@ -39,6 +41,8 @@ final class NewCameraManager: NSObject, ObservableObject {
     
     private var store = Set<AnyCancellable>()
     
+    private let videoProcessingQueue = DispatchQueue(label: "camera.frame.processing")
+    
     override init() {
         super.init()
         $permissionGranted.sink { complete in
@@ -49,7 +53,7 @@ final class NewCameraManager: NSObject, ObservableObject {
          
     }
 
-    private func setupSession() {
+    func setupSession() {
         session.beginConfiguration()
         session.sessionPreset = .photo
 
@@ -79,7 +83,7 @@ final class NewCameraManager: NSObject, ObservableObject {
         }
 
         if session.canAddOutput(videoOutput) {
-            videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "camera.frame.processing"))
+            videoOutput.setSampleBufferDelegate(self, queue: videoProcessingQueue)
             session.addOutput(videoOutput)
             videoOutput.alwaysDiscardsLateVideoFrames = true
             videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
@@ -104,6 +108,15 @@ final class NewCameraManager: NSObject, ObservableObject {
         CVMetalTextureCacheCreate(nil, nil, MTLCreateSystemDefaultDevice()!, nil, &textureCache)
         
         start()
+    }
+    
+    func checkPhotoLibraryAccess() {
+        let current = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+        DispatchQueue.main.async {
+            withAnimation {
+                self.permissionPhotoGranted = (current == .authorized || current == .limited)
+            }
+        }
     }
     
     func checkCameraPremission() {
@@ -218,14 +231,21 @@ final class NewCameraManager: NSObject, ObservableObject {
             }
         })
     }
-}
+    
+    
+    private let textureConvertQueue = DispatchQueue(label: "texture.convert", qos: .userInitiated)
 
-extension NewCameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
+    @objc dynamic
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-        onNewPixelBuffer?(pixelBuffer)
+        guard let pb = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        textureConvertQueue.async {
+          autoreleasepool {
+            self.onNewPixelBuffer?(pb)
+          }
+        }
     }
 }
+
 
 extension NewCameraManager: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput,
@@ -259,6 +279,7 @@ extension NewCameraManager: AVCapturePhotoCaptureDelegate {
                 haptic()
             } else {
                 print("❌ Ошибка при сохранении фото: \(String(describing: error))")
+                self.checkPhotoLibraryAccess()
             }
         }
     }
@@ -348,7 +369,7 @@ extension NewCameraManager {
             return
         }
 
-        switchCamera(to: frontCamera)
+        reswitchCamera(to: frontCamera)
     }
     
     func switchToBackCamera() {
@@ -357,10 +378,10 @@ extension NewCameraManager {
             return
         }
 
-        switchCamera(to: backCamera)
+        reswitchCamera(to: backCamera)
     }
     
-    func switchCamera(to newDevice: AVCaptureDevice) {
+    func reswitchCamera(to newDevice: AVCaptureDevice) {
         session.beginConfiguration()
 
         if let currentInput = deviceInput {

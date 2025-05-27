@@ -25,9 +25,6 @@ struct CameraPoseHelperApp: App {
             NavigationView {
                 CustomCameraView()
             }.onAppear {
-#if RELEASE
-                TelegramBot.shared.sendMessage("Open_App")
-#endif
                 SubscriptionManager.shared.configure(apiKey: REVENUECAT_KEY)
             }
         }

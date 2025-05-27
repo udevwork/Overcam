@@ -137,7 +137,7 @@ struct BestPaywall: View {
                     HStack {
                         VStack(alignment: .leading) {
                             Text(model.priceText)
-                                .font(.system(size: 18, weight: .black, design: .serif))
+                                .font(.system(size: 17, weight: .bold, design: .serif))
                                 .contentTransition(.numericText())
                             Text(model.priceSubText)
                                 .font(.system(size: 14, weight: .regular, design: .default))

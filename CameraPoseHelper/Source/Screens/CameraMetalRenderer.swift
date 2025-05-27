@@ -7,7 +7,7 @@ final class MetalRenderer: NSObject, MTKViewDelegate {
     private let commandQueue: MTLCommandQueue
     private var pipelineState: MTLRenderPipelineState!
     private var samplerState: MTLSamplerState!
-    private var textureCache: CVMetalTextureCache!
+    public var textureCache: CVMetalTextureCache!
     private var lastDrawableSize: CGSize = .zero
 
     var currentTexture: MTLTexture?
@@ -43,13 +43,25 @@ final class MetalRenderer: NSObject, MTKViewDelegate {
         descCamera.vertexFunction = library.makeFunction(name: "vertex_passthrough")
         descCamera.fragmentFunction = library.makeFunction(name: "fragment_camera")
         descCamera.colorAttachments[0].pixelFormat = mtkView.colorPixelFormat
-        pipelineCamera = try! device.makeRenderPipelineState(descriptor: descCamera)
+        
 
+        do {
+            pipelineCamera = try device.makeRenderPipelineState(descriptor: descCamera)
+        } catch {
+            print("❌ [DebugRelease] PipelineCamera error:", error)
+        }
+        
         let descRef = MTLRenderPipelineDescriptor()
         descRef.vertexFunction = library.makeFunction(name: "vertex_passthrough") // тот же!
         descRef.fragmentFunction = library.makeFunction(name: "fragment_overlay")
         descRef.colorAttachments[0].pixelFormat = mtkView.colorPixelFormat
-        pipelineReference = try! device.makeRenderPipelineState(descriptor: descRef)
+        
+        
+        do {
+            pipelineReference = try device.makeRenderPipelineState(descriptor: descRef)
+        } catch {
+            print("❌ [DebugRelease] PipelineCamera error:", error)
+        }
     }
 
     private func buildSamplerState() {
@@ -76,6 +88,7 @@ final class MetalRenderer: NSObject, MTKViewDelegate {
     }
 
     func draw(in view: MTKView) {
+       
         guard let drawable = view.currentDrawable,
               let descriptor = view.currentRenderPassDescriptor,
               let texture = currentTexture else { return }
