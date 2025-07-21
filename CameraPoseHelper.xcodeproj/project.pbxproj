@@ -15,6 +15,7 @@
 		9273660D2DD3B8CB00218A73 /* ReceiptParser in Frameworks */ = {isa = PBXBuildFile; productRef = 9273660C2DD3B8CB00218A73 /* ReceiptParser */; };
 		9273660F2DD3B8CB00218A73 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 9273660E2DD3B8CB00218A73 /* RevenueCat */; };
 		927366122DD3BA2000218A73 /* Foil in Frameworks */ = {isa = PBXBuildFile; productRef = 927366112DD3BA2000218A73 /* Foil */; };
+		928DCA152E27E4F2000E1012 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 928DCA142E27E4F2000E1012 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		926D2F462B35BEC900D15F06 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9271C0C42DE30551004C1992 /* CamShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = CamShader.metal; sourceTree = "<group>"; };
 		9271C0D22DE30551004C1992 /* VideoShaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = VideoShaders.metal; sourceTree = "<group>"; };
+		928DCA142E27E4F2000E1012 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		929E6BC32DE46CC60034B6D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,6 +83,7 @@
 				926D2F452B35BEC900D15F06 /* Preview Content */,
 				9271C21C2DE35A8F004C1992 /* trash */,
 				929E6BC32DE46CC60034B6D7 /* Info.plist */,
+				928DCA142E27E4F2000E1012 /* Localizable.xcstrings */,
 			);
 			path = CameraPoseHelper;
 			sourceTree = "<group>";
@@ -155,6 +158,9 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
+				"pt-PT",
+				"kk-KZ",
 			);
 			mainGroup = 926D2F332B35BEC700D15F06;
 			packageReferences = (
@@ -177,6 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				926D2F472B35BEC900D15F06 /* Preview Assets.xcassets in Resources */,
+				928DCA152E27E4F2000E1012 /* Localizable.xcstrings in Resources */,
 				9271C0F32DE30551004C1992 /* VideoShaders.metal in Resources */,
 				9271C0F42DE30551004C1992 /* CamShader.metal in Resources */,
 			);
@@ -255,6 +262,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -311,6 +319,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -323,7 +332,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CameraPoseHelper/Preview Content\"";
 				DEVELOPMENT_TEAM = 87XM268947;
 				ENABLE_PREVIEWS = YES;
@@ -337,13 +346,12 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
-				OTHER_LDFLAGS = "-ObjC";
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.01lab.overcam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -364,7 +372,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CameraPoseHelper/Preview Content\"";
 				DEVELOPMENT_TEAM = 87XM268947;
 				ENABLE_PREVIEWS = YES;
@@ -378,13 +386,12 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
-				OTHER_LDFLAGS = "-ObjC";
+				MARKETING_VERSION = 2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.01lab.overcam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

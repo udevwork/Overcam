@@ -38,6 +38,7 @@ final class NewCameraManager: NSObject, AVCaptureVideoDataOutputSampleBufferDele
     @Published var front: Bool = false
     @Published var expBias: Double = 0.005
     @Published var iso: Float = 200.0
+    @Published var focusLocked: Bool = false
     
     private var store = Set<AnyCancellable>()
     
@@ -482,8 +483,28 @@ extension NewCameraManager {
                   device.exposurePointOfInterest = normalizedPoint
                   device.exposureMode = .continuousAutoExposure
               }
-
+              self.focusLocked = true
               device.unlockForConfiguration()
+          } catch {
+              print("⚡️ Ошибка фокуса/экспозиции: \(error)")
+              self.focusLocked = true
+          }
+    }
+    
+    func unlockFocus() {
+        guard let device = deviceInput?.device else { return }
+
+          do {
+              try device.lockForConfiguration()
+              if device.isFocusPointOfInterestSupported {
+                  device.focusMode = .continuousAutoFocus
+              }
+
+              if device.isExposurePointOfInterestSupported {
+                  device.exposureMode = .autoExpose
+              }
+              device.unlockForConfiguration()
+              focusLocked = false
           } catch {
               print("⚡️ Ошибка фокуса/экспозиции: \(error)")
           }

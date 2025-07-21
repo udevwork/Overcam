@@ -41,26 +41,28 @@ fragment float4 fragment_camera(VertexOut in [[ stage_in ]],
 }
 
 // Reference — микс поверх
-fragment float4 fragment_overlay(VertexOut in [[ stage_in ]],
+fragment float4 fragment_overlay(
+                                 VertexOut in [[ stage_in ]],
                                  texture2d<float> base [[ texture(0) ]],
                                  sampler s0 [[ sampler(0) ]],
                                  texture2d<float> overlay [[ texture(1) ]],
                                  sampler s1 [[ sampler(1) ]],
-                                 constant float &alpha [[ buffer(0) ]]) {
+                                 constant float &alpha [[ buffer(0) ]])
+{
     float4 baseColor = base.sample(s0, in.texCoord);
     float4 refColor  = overlay.sample(s1, in.texCoord);
-
+    
     // Плавный градиент по краям
     float edge = 0.05; // 5% от ширины/высоты текстуры (можно подогнать)
     
     float fadeX = smoothstep(0.0, edge, in.texCoord.x) *
-                  smoothstep(0.0, edge, 1.0 - in.texCoord.x);
+    smoothstep(0.0, edge, 1.0 - in.texCoord.x);
     
     float fadeY = smoothstep(0.0, edge, in.texCoord.y) *
-                  smoothstep(0.0, edge, 1.0 - in.texCoord.y);
-
+    smoothstep(0.0, edge, 1.0 - in.texCoord.y);
+    
     float fade = fadeX * fadeY;
-
+    
     return mix(baseColor, refColor, alpha * fade);
 }
 

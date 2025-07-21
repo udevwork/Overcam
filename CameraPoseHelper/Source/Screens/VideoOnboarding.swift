@@ -210,14 +210,14 @@ struct VideoOnboarding: View {
             VStack {
                 Spacer()
                 VStack(alignment:.leading) {
-                    Text(title)
+                    Text(String(localized: .init(title)))
                         .font(.doto(.black, size: 40))
                         .contentTransition(.numericText())
                         .foregroundStyle(
                             LinearGradient(colors: [Color.introOne,Color.introTwo], startPoint: .leading, endPoint: .trailing)
                         )
                         
-                    Text(text)
+                    Text(String(localized: .init(text)))
                         .font(.system(size: 25, weight: .regular, design: .default))
                     HStack {
                         FillingProgressBar(
@@ -239,7 +239,7 @@ struct VideoOnboarding: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20)
                                     .foregroundStyle(nextButtonColor)
-                                Text(nextButtonText)
+                                Text(String(localized: .init(nextButtonText)))
                                     .bold()
                                     .foregroundStyle(nextButtonIconColor)
                                     .contentTransition(.numericText())

@@ -72,6 +72,7 @@ struct CustomCameraView: View {
                                 HStack {
                                     ZoomLabel()
                                     Spacer()
+                                    FocusLabel()
                                     if !menuOpened {
                                         LastCapturedImage()
                                     }

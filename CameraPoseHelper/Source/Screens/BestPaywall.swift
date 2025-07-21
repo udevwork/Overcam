@@ -11,7 +11,7 @@ class BestPaywallModel: ObservableObject {
     
     @Published public var selectedProduct : SubscriptionProduct? = nil
     @Published public var priceText : String = ""
-    @Published public var priceSubText : String = ""
+    @Published public var durationText : String = ""
     
     init(){
         
@@ -60,33 +60,37 @@ struct BestPaywall: View {
                                 )
                         }
                         
-                        Text("Become a part of our team and community")
+                        Text(String(localized: "Become a part of our team and community"))
                             .font(.footnote)
                             .opacity(0.7)
                         
                     }
                     
-                    Text("**Unlock:** the photo selection feature from your own gallery. Choose references from your own photos.")
+    
+                    Text(String(localized: "Unlock the photo selection feature from your own gallery. Choose references from your own photos."))
                         .font(.system(size: 15, weight: .regular, design: .default))
                     
                     if let error = subscriptionManager.errorMessage {
-                        Text("**error:** \(error)")
+                        Text("error: \(error)")
                             .font(.system(size: 15, weight: .regular, design: .default))
                             .foregroundStyle(.accent)
                     }
                     
                     if subscriptionManager.isSubscribed {
-                        Text("Thanks! Now you're with us! The subscription has been purchased.")
+                        Text(String(localized: "Thanks! Now you're with us! The subscription has been purchased."))
                             .font(.system(size: 15, weight: .bold, design: .default))
                     }
                     
                     HStack {
                         ForEach(subscriptionManager.products, id: \.id) { item in
                             VStack (alignment: .leading) {
-                                Text(item.duration).bold()
+                                Text(String(localized: .init(item.duration)))
+                                    .bold()
                                 if item.discount == "0%" {
                                     if let trial = item.trialDuration {
-                                        Text("\(trial) Trial").layoutPriority(100)
+                                        Text("\(String(localized: .init(trial))) \(String(localized: .init("Trial")))")
+                                            .layoutPriority(100)
+                                            .font(.footnote)
                                     }
                                 } else {
                                     Text("-\(item.discount ?? "-")")
@@ -94,6 +98,7 @@ struct BestPaywall: View {
                             }
                             .padding(.vertical,7)
                             .padding(.horizontal,12)
+                            .frame(height: 80)
                             .background(.gray.opacity(0.15))
                             .cornerRadius(8)
                             .overlay(content: {
@@ -107,6 +112,7 @@ struct BestPaywall: View {
                                         .transition(.blurReplace)
                                 }
                             })
+                            .frame(height: 100)
                             .onTapGesture {
                                 withAnimation {
                                     model.selectedProduct = item
@@ -117,14 +123,11 @@ struct BestPaywall: View {
                                 let o = item.discount ?? ""
                                 
                                 withAnimation() {
-                                    if let t = t {
-                                        model.priceSubText = "\(t) Trial"
-                                    } else {
-                                        model.priceSubText = "-\(o) Discount"
-                                    }
-                                    model.priceText = "\(p) / \(d)"
+                                    model.priceText = "\(p)"
+                                    model.durationText = "\(d)"
                                 }
                             }
+                            
                         }
                     }
                     
@@ -136,12 +139,14 @@ struct BestPaywall: View {
                     
                     HStack {
                         VStack(alignment: .leading) {
-                            Text(model.priceText)
-                                .font(.system(size: 17, weight: .bold, design: .serif))
-                                .contentTransition(.numericText())
-                            Text(model.priceSubText)
-                                .font(.system(size: 14, weight: .regular, design: .default))
-                                .contentTransition(.numericText())
+                            HStack {
+                             
+                                Text("\(model.priceText) / \(String(localized: .init(model.durationText)))")
+                                    .font(.system(size: 21, weight: .bold, design: .serif))
+                                    .contentTransition(.numericText())
+                                
+                            }
+                    
                         }
                         Spacer()
                         Button {
@@ -153,7 +158,7 @@ struct BestPaywall: View {
                         } label: {
                             HStack {
                                 if subscriptionManager.purchasing == false {
-                                    Text("Subscribe")
+                                    Text(String(localized: "Subscribe"))
                                         .bold()
                                         .foregroundStyle(.black)
                                 } else {
@@ -182,12 +187,8 @@ struct BestPaywall: View {
                 let p = model.selectedProduct?.priceString ?? "-"
                 let d = model.selectedProduct?.duration ?? "-"
                 
-                model.priceText = "\(p) / \(d)"
-                
-                if let t = model.selectedProduct?.trialDuration {
-                    model.priceSubText = "\(t) Trial"
-                }
-                
+                model.priceText = "\(p)"
+                model.durationText = "\(d)"
                 
                 withAnimation(.easeInOut.delay(0.3)) {
                     animate = true

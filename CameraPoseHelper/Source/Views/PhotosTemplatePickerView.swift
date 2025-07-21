@@ -167,13 +167,21 @@ struct PhotosTemplatePickerView: View {
                         
                     } else {
                         HStack(spacing: 15) {
-                            Text("Privacy").onTapGesture { showPrivacy.toggle() }
-                            Text("Terms").onTapGesture { showTerms.toggle() }
-                            Text("Restore").onTapGesture {
+
+//                            Text(String(localized: "Privacy"))
+//                                .onTapGesture { showPrivacy.toggle() }
+
+                            Text(String(localized: "Restore"))
+                                .onTapGesture {
                                 Task {
                                     await subscriptions.restorePurchases()
                                 }
                             }
+                            
+                            Text(String(localized: "Terms"))
+                                .onTapGesture { showTerms.toggle() }
+
+                           
                         }
                         .font(.footnote)
                         .opacity(0.7)

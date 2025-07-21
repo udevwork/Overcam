@@ -8,6 +8,7 @@
 
 import SwiftUI
 import CoreMotion
+import RevenueCat
 
 class MotionManager: ObservableObject {
     private var motionManager = CMMotionManager()
@@ -92,6 +93,7 @@ struct SettingsView: View {
     @Environment(\.requestReview) var requestReview
     @Environment(\.dismiss) var dismiss
     @StateObject private var motion = MotionManager()
+    @StateObject var subscriptionManager = SubscriptionManager.shared
     @State private var elapsed: Float = 1
     @State private var counter: Float = 1
     
@@ -100,14 +102,16 @@ struct SettingsView: View {
     @State private var isSharePresented: Bool = false
     
     var items: [TextEmoji] = [
-        .init(text: "Reate us!"),
+        .init(text: "Rate us!"),
         .init(text: "Web"),
         .init(text: "Telegram"),
         .init(text: "Email"),
         .init(text: "More apps"),
         .init(text: "Policy"),
         .init(text: "Terms"),
-        .init(text: "Share")
+        .init(text: "Share"),
+        .init(text: "Copy customer ID"),
+        .init(text: "Restore purchases")
     ]
     
     var body: some View {
@@ -141,8 +145,8 @@ struct SettingsView: View {
                         )
                 }
                 
-                
-                Text("Become a part of us.")
+                Text(String(localized: "Become a part of us."))
+                    .minimumScaleFactor(0.5)
                     .font(.doto(.black, size: 45))
                     .offset(x: motion.x * 10, y: motion.y * 10)
                     .foregroundStyle(
@@ -150,10 +154,11 @@ struct SettingsView: View {
                     )
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("Our goal is to inspire you to create breathtaking, artistic photographs, and we hope this tool will help you craft original works and learn composition from professionals. Join our team—we’re open to dialogue and committed to continuous improvement.")
+                    Text(String(localized: "Our goal is to inspire you to create breathtaking, artistic photographs, and we hope this tool will help you craft original works and learn composition from professionals. Join our team—we’re open to dialogue and committed to continuous improvement."))
                         .font(.subheadline)
                         .bold()
                         .foregroundStyle(.dirtyWhite)
+                        .minimumScaleFactor(0.5)
                     
                 }.offset(x: motion.x * 5, y: motion.y * 5)
                 
@@ -162,7 +167,7 @@ struct SettingsView: View {
                 FlowLayout(items: items, spacing: 6) { i in
                     Button {
                         switch i.text {
-                            case "Reate us!": requestReview()
+                            case "Rate us!": requestReview()
                             case "Web": openURL(WEBSITE)
                             case "Telegram": openURL(TG_SUPPORT)
                             case "Email": openMail()
@@ -170,12 +175,22 @@ struct SettingsView: View {
                             case "Policy": showPrivacy.toggle()
                             case "Terms": showTerms.toggle()
                             case "Share": isSharePresented.toggle()
+                            case "Copy customer ID":
+                                let pasteboard = UIPasteboard.general
+                                pasteboard.string = Purchases.shared.appUserID
+                                haptic(.success)
+                            case "Restore purchases":
+                                haptic(.success)
+                                Task {
+                                    await subscriptionManager.restorePurchases()
+                                    haptic(.success)
+                                }
                             default:
                                 return
                         }
                     } label: {
                         HStack {
-                            Text(i.text)
+                            Text(String(localized: .init(i.text)))
                         }
                         .font(.subheadline)
                         .lineLimit(1)
@@ -192,7 +207,7 @@ struct SettingsView: View {
                 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Created by".uppercased()).foregroundStyle(.dirtyWhite.opacity(0.5))
+                        Text(String(localized: "Created by").uppercased()).foregroundStyle(.dirtyWhite.opacity(0.5))
                         Text("01lab") .foregroundStyle(.dirtyWhite)
                     }.font(.footnote)
                 }

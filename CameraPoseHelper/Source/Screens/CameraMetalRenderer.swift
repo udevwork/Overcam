@@ -52,7 +52,7 @@ final class MetalRenderer: NSObject, MTKViewDelegate {
         }
         
         let descRef = MTLRenderPipelineDescriptor()
-        descRef.vertexFunction = library.makeFunction(name: "vertex_passthrough") // тот же!
+        descRef.vertexFunction = library.makeFunction(name: "vertex_passthrough")
         descRef.fragmentFunction = library.makeFunction(name: "fragment_overlay")
         descRef.colorAttachments[0].pixelFormat = mtkView.colorPixelFormat
         

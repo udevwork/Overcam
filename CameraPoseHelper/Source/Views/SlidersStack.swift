@@ -63,7 +63,8 @@ struct SlidersStack: View {
                           minHeight: 30,
                           enableDragGestureDelayForiOS: false
             ) {
-                Text("Ref opacity").font(.system(.footnote, design: .monospaced, weight: .bold))
+                Text(String(localized: "Ref opacity"))
+                    .font(.system(.footnote, design: .monospaced, weight: .bold))
                 Spacer()
                 Text(String(format: "%.2f", cameraManager.referenceAlpha)).font(.system(.footnote, design: .monospaced, weight: .bold))
             }
